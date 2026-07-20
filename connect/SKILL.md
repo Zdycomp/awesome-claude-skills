@@ -57,6 +57,13 @@ pip install composio          # Python
 npm install @composio/core    # TypeScript
 ```
 
+Prefer a CLI? Install it directly and it will auto-configure supported agent hosts (including Claude Code):
+
+```bash
+curl -fsSL https://composio.dev/install | bash
+composio login
+```
+
 Done. Claude can now connect to any app.
 
 ## Examples
@@ -135,6 +142,7 @@ Connection persists after that.
 | OpenAI Agents | `pip install composio openai-agents` |
 | Vercel AI | `npm install @composio/core @composio/vercel` |
 | LangChain | `pip install composio-langchain` |
+| CLI (Claude Code, etc.) | `curl -fsSL https://composio.dev/install \| bash` |
 | Any MCP Client | Use `session.mcp.url` |
 
 ## Troubleshooting
