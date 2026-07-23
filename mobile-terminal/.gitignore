@@ -1,0 +1,25 @@
+# Android / Gradle build artifacts
+.gradle/
+build/
+app/build/
+captures/
+*.apk
+*.aab
+*.ap_
+*.dex
+
+# Local SDK location (machine-specific, never commit)
+local.properties
+
+# Keystores / signing material — never commit secrets
+*.jks
+*.keystore
+keystore.properties
+
+# IDE
+.idea/
+*.iml
+.DS_Store
+
+# NDK intermediate
+.cxx/
