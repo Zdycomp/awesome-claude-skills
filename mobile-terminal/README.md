@@ -113,7 +113,19 @@ There is **no Gradle wrapper committed** (the wrapper `.jar` can't be
 generated without the Android SDK present, and shipping a broken one is
 worse than none). Build one of two ways:
 
-### Option A — Android Studio (recommended)
+### Option 0 — Let GitHub build it for you (no local setup)
+
+A CI workflow (`.github/workflows/secureterm-android.yml`) builds the APK on
+every push that touches `mobile-terminal/`. To get an installable APK:
+
+1. Push to (or open a PR against) this branch — or trigger it manually:
+   GitHub → **Actions** tab → **Build SecureTerm APK** → **Run workflow**.
+2. Open the finished run and download the **`secureterm-debug-apk`** artifact
+   (a zip containing `app-debug.apk`).
+3. Copy the APK to your phone, tap it, and allow "install from unknown
+   sources" when prompted. Done — no SDK, NDK, or Android Studio on your side.
+
+### Option A — Android Studio (recommended for development)
 1. Open the `mobile-terminal/` folder in Android Studio (Ladybug / AGP 8.7+).
 2. Let it sync — it will generate the Gradle wrapper and prompt to install
    the matching **SDK 35**, **NDK**, and **CMake** if missing.

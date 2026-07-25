@@ -1,0 +1,66 @@
+name: Build SecureTerm APK
+
+# Builds the sideloadable debug APK for the mobile-terminal Android app and
+# publishes it as a downloadable artifact. Scoped to mobile-terminal/ paths
+# so it never runs for unrelated changes in this repo.
+on:
+  push:
+    paths:
+      - "mobile-terminal/**"
+      - ".github/workflows/secureterm-android.yml"
+  pull_request:
+    paths:
+      - "mobile-terminal/**"
+  workflow_dispatch: {}   # lets you trigger a build by hand from the Actions tab
+
+# Least privilege: the job only needs to read the repo and upload an artifact.
+permissions:
+  contents: read
+
+concurrency:
+  group: secureterm-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobile-terminal
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install NDK and CMake (pinned versions)
+        run: |
+          sdkmanager --install \
+            "platforms;android-35" \
+            "build-tools;35.0.0" \
+            "ndk;27.0.12077973" \
+            "cmake;3.22.1"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          # No committed wrapper; pin a standalone Gradle compatible with AGP 8.7.
+          gradle-version: "8.11.1"
+
+      - name: Build debug APK
+        run: gradle --no-daemon assembleDebug
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: secureterm-debug-apk
+          path: mobile-terminal/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 30

@@ -7,6 +7,9 @@ android {
     namespace = "com.zdycomp.secureterm"
     compileSdk = 35
 
+    // Pinned so CI and local builds resolve the exact same native toolchain.
+    ndkVersion = "27.0.12077973"
+
     defaultConfig {
         applicationId = "com.zdycomp.secureterm"
         // minSdk 26: guarantees bionic openpty/forkpty (API 23+) and Keystore AES/GCM.
@@ -34,6 +37,7 @@ android {
     externalNativeBuild {
         cmake {
             path = file("src/main/cpp/CMakeLists.txt")
+            version = "3.22.1"
         }
     }
 
